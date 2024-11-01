@@ -44,7 +44,7 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-/**
+/** 
  * Camera
  */
 // Base camera
@@ -83,6 +83,10 @@ gui
 const material = new THREE.ShaderMaterial({
     vertexShader: hologramVertex,
     fragmentShader: hologramFragment,
+    uniforms: {
+        uTime: new THREE.Uniform(0.),
+    },
+    transparent: true,
 })
 
 /**
@@ -129,7 +133,7 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
-    // Rotate objects
+    //Rotate objects
     if(suzanne)
     {
         suzanne.rotation.x = - elapsedTime * 0.1
@@ -141,6 +145,11 @@ const tick = () =>
 
     torusKnot.rotation.x = - elapsedTime * 0.1
     torusKnot.rotation.y = elapsedTime * 0.2
+
+
+    //update u time
+
+    material.uniforms.uTime.value = elapsedTime;
 
     // Update controls
     controls.update()
